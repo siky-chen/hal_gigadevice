@@ -185,7 +185,7 @@ void can_struct_para_init(can_struct_type_enum type, void *p_struct)
 */
 ErrStatus can_init(uint32_t can_periph, can_parameter_struct *can_parameter_init)
 {
-    uint32_t timeout = CAN_TIMEOUT;
+    uint32_t timeout = GD32_CAN_TIMEOUT;
     ErrStatus flag = ERROR;
     uint32_t fdctl_status;
 
@@ -261,7 +261,7 @@ ErrStatus can_init(uint32_t can_periph, can_parameter_struct *can_parameter_init
         }
         /* disable initialize mode */
         CAN_CTL(can_periph) &= ~CAN_CTL_IWMOD;
-        timeout = CAN_TIMEOUT;
+        timeout = GD32_CAN_TIMEOUT;
         /* wait the ACK */
         while((CAN_STAT_IWS == (CAN_STAT(can_periph) & CAN_STAT_IWS)) && (0U != timeout)) {
             timeout--;
@@ -298,7 +298,7 @@ ErrStatus can_init(uint32_t can_periph, can_parameter_struct *can_parameter_init
 */
 ErrStatus can_fd_init(uint32_t can_periph, can_fdframe_struct *can_fdframe_init)
 {
-    uint32_t timeout = CAN_TIMEOUT;
+    uint32_t timeout = GD32_CAN_TIMEOUT;
     uint32_t tempreg = 0U;
 
     /* check null pointer */
@@ -358,7 +358,7 @@ ErrStatus can_fd_init(uint32_t can_periph, can_fdframe_struct *can_fdframe_init)
 
         /* disable initialize mode */
         CAN_CTL(can_periph) &= ~CAN_CTL_IWMOD;
-        timeout = CAN_TIMEOUT;
+        timeout = GD32_CAN_TIMEOUT;
         /* wait the ACK */
         while((CAN_STAT_IWS == (CAN_STAT(can_periph) & CAN_STAT_IWS)) && (0U != timeout)) {
             timeout--;
@@ -558,7 +558,7 @@ void can_filter_mask_mode_init(uint32_t id, uint32_t mask, can_format_fifo_enum 
 ErrStatus can_monitor_mode_set(uint32_t can_periph, uint8_t mode)
 {
     ErrStatus reval = SUCCESS;
-    uint32_t timeout = CAN_TIMEOUT;
+    uint32_t timeout = GD32_CAN_TIMEOUT;
 
     if(mode == (mode & CAN_SILENT_LOOPBACK_MODE)) {
         /* disable sleep mode */
@@ -566,7 +566,7 @@ ErrStatus can_monitor_mode_set(uint32_t can_periph, uint8_t mode)
         /* set initialize mode */
         CAN_CTL(can_periph) |= (uint8_t)CAN_CTL_IWMOD;
         /* wait the acknowledge */
-        timeout = CAN_TIMEOUT;
+        timeout = GD32_CAN_TIMEOUT;
         while((CAN_STAT_IWS != (CAN_STAT(can_periph) & CAN_STAT_IWS)) && (0U != timeout)) {
             timeout--;
         }
@@ -577,7 +577,7 @@ ErrStatus can_monitor_mode_set(uint32_t can_periph, uint8_t mode)
             CAN_BT(can_periph) &= ~BT_MODE(3);
             CAN_BT(can_periph) |= BT_MODE(mode);
 
-            timeout = CAN_TIMEOUT;
+            timeout = GD32_CAN_TIMEOUT;
             /* enter normal mode */
             CAN_CTL(can_periph) &= ~(uint32_t)(CAN_CTL_SLPWMOD | CAN_CTL_IWMOD);
             /* wait the acknowledge */
@@ -1084,7 +1084,7 @@ ErrStatus can_working_mode_set(uint32_t can_periph, uint8_t working_mode)
 {
     ErrStatus flag = ERROR;
     /* timeout for IWS or also for SLPWS bits */
-    uint32_t timeout = CAN_TIMEOUT;
+    uint32_t timeout = GD32_CAN_TIMEOUT;
 
     if(CAN_MODE_INITIALIZE == working_mode) {
         /* disable sleep mode */
@@ -1142,7 +1142,7 @@ ErrStatus can_working_mode_set(uint32_t can_periph, uint8_t working_mode)
 ErrStatus can_wakeup(uint32_t can_periph)
 {
     ErrStatus flag = ERROR;
-    uint32_t timeout = CAN_TIMEOUT;
+    uint32_t timeout = GD32_CAN_TIMEOUT;
 
     /* wakeup */
     CAN_CTL(can_periph) &= ~CAN_CTL_SLPWMOD;
